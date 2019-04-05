@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import Chatkit from "@pusher/chatkit-client"
 import MessageList from "./components/MessageList";
+import SendMessageForm from "./components/SendMessageForm";
 import './App.css';
 
 const DUMMY_DATA = [
@@ -26,12 +28,34 @@ class App extends Component {
     }
   }
   
+  componentDidMount() {
+    const chatManager = new Chatkit.ChatManager({
+      instanceLocator: instanceLocator,
+      userId: username,
+      tokenProvider: new Chatkit.TokenProvider({
+        url: testToken
+      })
+   }) 
+   chatManager.connect().then(currentUser => {
+    currentUser.subscribeToRoom({
+    roomId: roomId,
+    hooks: {
+      onNewMessage: message => {
+        this.setState({
+          messages: [...this.state.messages, message]
+          })
+        }
+      }
+    })
+  })
+  }
+
   render() {
     return (
       <div className="App">
-        {/* <Title /> */}
+        <p className="title">NES Chatroom</p>
         <MessageList messages={this.state.messages} />
-        {/* <SendMessageForm /> */}
+        <SendMessageForm />
       </div>
     );
   }
