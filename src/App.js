@@ -12,6 +12,12 @@ const DUMMY_DATA = [
     text: "who'll win?"
   }
 ]
+
+const instanceLocator = process.env.REACT_APP_INSTANCE_LOCATOR;
+const testToken = process.env.REACT_APP_TEST_TOKEN;
+const username = process.env.REACT_APP_USERNAME;
+const roomId = process.env.REACT_APP_ROOMID;
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -23,9 +29,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Title />
+        {/* <Title /> */}
         <MessageList messages={this.state.messages} />
-        <SendMessageForm />
+        {/* <SendMessageForm /> */}
       </div>
     );
   }
